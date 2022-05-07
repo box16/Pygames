@@ -12,8 +12,8 @@ pygame.init()
 screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 clock = pygame.time.Clock()
 
-rect = pygame.Rect((0, 0), (32, 32))
-image = pygame.Surface((32, 32))
+rect = pygame.Rect((0, 0), (8, 8))
+image = pygame.Surface((8, 8))
 image.fill(WHITE)
 
 
