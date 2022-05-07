@@ -8,7 +8,9 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 MOVEMENT = 3
 MOVEMENT_LIST = [-MOVEMENT, MOVEMENT]
-PARTICLE_SIZE = (8, 8)
+PARTICLE_WIDTH = 8
+PARTICLE_HEIGHT = 8
+PARTICLES_NUM = 20
 
 
 def get_movement(left, top, width, height):
@@ -29,19 +31,24 @@ def get_random_pos():
     return x, y
 
 
+def generate_particles():
+    particles = []
+    for i in range(PARTICLES_NUM):
+        fisrt_x, first_y = get_random_pos()
+        image = pygame.Surface((PARTICLE_WIDTH, PARTICLE_HEIGHT))
+        image.fill(WHITE)
+        rect = pygame.Rect((fisrt_x, first_y),
+                           (PARTICLE_WIDTH, PARTICLE_HEIGHT))
+        particles.append((image, rect))
+    return particles
+
+
 if __name__ == "__main__":
     pygame.init()
 
     screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
-
-    particles = []
-    for i in range(10):
-        fisrt_x, first_y = get_random_pos()
-        image = pygame.Surface(PARTICLE_SIZE)
-        image.fill(WHITE)
-        rect = pygame.Rect((fisrt_x, first_y), PARTICLE_SIZE)
-        particles.append((image, rect))
+    particles = generate_particles()
 
     running = True
     while running:
@@ -51,10 +58,10 @@ if __name__ == "__main__":
 
         clock.tick(FPS)
 
-        for particle in particles:
+        for image, rect in particles:
             x_movement, y_movement = get_movement(
-                particle[1].left, particle[1].top, particle[1].width, particle[1].height)
-            particle[1].move_ip(x_movement, y_movement)
+                rect.left, rect.top, rect.width, rect.height)
+            rect.move_ip(x_movement, y_movement)
 
         screen.fill(BLACK)
         screen.blits(particles)
