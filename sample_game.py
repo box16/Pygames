@@ -35,10 +35,13 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
 
-    fisrt_x, first_y = get_random_pos()
-    rect = pygame.Rect((fisrt_x, first_y), PARTICLE_SIZE)
-    image = pygame.Surface(PARTICLE_SIZE)
-    image.fill(WHITE)
+    particles = []
+    for i in range(10):
+        fisrt_x, first_y = get_random_pos()
+        image = pygame.Surface(PARTICLE_SIZE)
+        image.fill(WHITE)
+        rect = pygame.Rect((fisrt_x, first_y), PARTICLE_SIZE)
+        particles.append((image, rect))
 
     running = True
     while running:
@@ -48,10 +51,11 @@ if __name__ == "__main__":
 
         clock.tick(FPS)
 
-        x_movement, y_movement = get_movement(
-            rect.left, rect.top, rect.width, rect.height)
-        rect.move_ip(x_movement, y_movement)
+        for particle in particles:
+            x_movement, y_movement = get_movement(
+                particle[1].left, particle[1].top, particle[1].width, particle[1].height)
+            particle[1].move_ip(x_movement, y_movement)
 
         screen.fill(BLACK)
-        screen.blit(image, rect)
+        screen.blits(particles)
         pygame.display.update()
